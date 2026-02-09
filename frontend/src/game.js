@@ -1,10 +1,8 @@
-// WebSocket connection
 const ws = new WebSocket('ws://localhost:8080');
 
 const user_id = crypto.randomUUID();
 const session_id = crypto.randomUUID();
 
-// Emit session_start on connect
 ws.onopen = () => {
     console.log('Connected to WebSocket server');
     const sessionStartEvent = {
@@ -22,7 +20,6 @@ ws.onopen = () => {
     ws.send(JSON.stringify(sessionStartEvent));
 };
 
-// Phaser config
 const config = {
     type: Phaser.AUTO,
     width: 800,
@@ -49,8 +46,8 @@ function create() {
             case 'ArrowDown': player.y += 10; moved = true; break;
             case 'ArrowLeft': player.x -= 10; moved = true; break;
             case 'ArrowRight': player.x += 10; moved = true; break;
-            case 'KeyM': sendMatchPlayed(); break;   // Simulate match end
-            case 'KeyD': sendDisconnect(); break;    // Simulate disconnect
+            case 'KeyM': sendMatchPlayed(); break;
+            case 'KeyD': sendDisconnect(); break;
         }
 
         if(moved) {
@@ -71,7 +68,6 @@ function create() {
 
 function update() {}
 
-// ----- Helper functions for schema events -----
 function sendMatchPlayed() {
     const results = ['win', 'loss', 'disconnect'];
     const result = results[Math.floor(Math.random() * results.length)];
@@ -84,7 +80,7 @@ function sendMatchPlayed() {
         session_id: session_id,
         timestamp: new Date().toISOString(),
         match_id: crypto.randomUUID(),
-        match_duration_sec: Math.floor(Math.random() * 600), // random duration 0-10min
+        match_duration_sec: Math.floor(Math.random() * 600),
         result: result,
         opponent_type: "human"
     };

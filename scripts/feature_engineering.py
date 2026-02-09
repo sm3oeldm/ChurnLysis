@@ -9,7 +9,6 @@ OUTPUT_PATH = "data/processed/features_dataset.csv"
 
 rows = []
 
-# Load all raw event files
 for filename in os.listdir(RAW_DIR):
     if not filename.endswith(".json"):
         continue
@@ -19,18 +18,14 @@ for filename in os.listdir(RAW_DIR):
 
     rows.append(event)
 
-# Convert to DataFrame
 df = pd.DataFrame(rows)
 
-# Parse timestamps
 df["timestamp"] = pd.to_datetime(df["timestamp"])
 
-# Sort events
 df = df.sort_values(by=["user_id", "session_id", "timestamp"])
 
 features = []
 
-# Group by user + session
 for (user_id, session_id), group in df.groupby(["user_id", "session_id"]):
     timestamps = group["timestamp"].sort_values()
 
@@ -54,16 +49,13 @@ for (user_id, session_id), group in df.groupby(["user_id", "session_id"]):
 
 features_df = pd.DataFrame(features)
 
-# -----------------------------
-# REALISTIC CHURN ENGINEERING
-# -----------------------------
 
 now = datetime.utcnow()
 
 churn_labels = []
 
 for _, row in features_df.iterrows():
-    churn_prob = 0.15  # base churn probability
+    churn_prob = 0.15
 
     if row["rage_quits"] >= 2:
         churn_prob += 0.35
@@ -84,10 +76,8 @@ for _, row in features_df.iterrows():
 
 features_df["churn"] = churn_labels
 
-# Drop timestamp column (model doesn't use it)
 features_df = features_df.drop(columns=["last_event_time"])
 
-# Save processed dataset
 os.makedirs("data/processed", exist_ok=True)
 features_df.to_csv(OUTPUT_PATH, index=False)
 
