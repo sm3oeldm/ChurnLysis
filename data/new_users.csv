@@ -1,0 +1,4 @@
+session_length_sec,matches_played,rage_quits,max_inactivity_gap_sec
+500,12,0,20
+450,10,0,15
+600,15,0,10
