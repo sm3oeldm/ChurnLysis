@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = 8080;
-const RAW_DATA_DIR = 'C:\\churn_analysis-';
+const RAW_DATA_DIR = rawDataDIR;
 
 const wss = new WebSocket.Server({ port: PORT });
 

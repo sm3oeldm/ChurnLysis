@@ -4,8 +4,8 @@ import pandas as pd
 from datetime import datetime
 import numpy as np
 
-RAW_DIR = "C:\churn_analysis-"
-OUTPUT_PATH = "data/processed/features_dataset.csv"
+RAW_DIR = rawDataDIR # A place where you stored data from phaser
+OUTPUT_PATH = "data/processed/features_dataset.csv" # Put your's here
 
 rows = []
 
